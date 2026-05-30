@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleados ERP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<script>
+
+function agregarEmpleado(event){
+
+    event.preventDefault();
+
+    const nombre = document.getElementById("nombre").value;
+    const cargo = document.getElementById("cargo").value;
+    const correo = document.getElementById("correo").value;
+
+    if(nombre === "" || cargo === "" || correo === ""){
+        alert("Complete todos los campos");
+        return;
+    }
+
+    const tabla = document.getElementById("tabla-empleados");
+
+    const fila = tabla.insertRow();
+
+    fila.innerHTML = `
+        <td>${nombre}</td>
+        <td>${cargo}</td>
+        <td>${correo}</td>
+        <td>
+            <button onclick="editarEmpleado(this)">Editar</button>
+            <button onclick="eliminarEmpleado(this)">Eliminar</button>
+        </td>
+    `;
+
+    document.getElementById("nombre").value = "";
+    document.getElementById("cargo").value = "";
+    document.getElementById("correo").value = "";
+}
+
+function eliminarEmpleado(boton){
+
+    const fila = boton.parentNode.parentNode;
+
+    fila.remove();
+}
+
+function editarEmpleado(boton){
+
+    const fila = boton.parentNode.parentNode;
+
+    const nombre = fila.cells[0].innerText;
+    const cargo = fila.cells[1].innerText;
+    const correo = fila.cells[2].innerText;
+
+    document.getElementById("nombre").value = nombre;
+    document.getElementById("cargo").value = cargo;
+    document.getElementById("correo").value = correo;
+
+    fila.remove();
+}
+
+function solicitarVacaciones(event){
+
+    event.preventDefault();
+
+    const empleado = document.getElementById("empleadoVacaciones").value;
+    const inicio = document.getElementById("fechaInicio").value;
+    const fin = document.getElementById("fechaFin").value;
+
+    if(empleado === "" || inicio === "" || fin === ""){
+        alert("Complete todos los campos");
+        return;
+    }
+
+    const tabla = document.getElementById("tabla-vacaciones");
+
+    const fila = tabla.insertRow();
+
+    fila.innerHTML = `
+        <td>${empleado}</td>
+        <td>${inicio}</td>
+        <td>${fin}</td>
+        <td>Pendiente</td>
+        <td>
+            <button onclick="aprobarVacaciones(this)">Aprobar</button>
+            <button onclick="rechazarVacaciones(this)">Rechazar</button>
+        </td>
+    `;
+
+    document.getElementById("empleadoVacaciones").value = "";
+    document.getElementById("fechaInicio").value = "";
+    document.getElementById("fechaFin").value = "";
+}
+
+function aprobarVacaciones(boton){
+
+    const fila = boton.parentNode.parentNode;
+
+    fila.cells[3].innerText = "Aprobado";
+}
+
+function rechazarVacaciones(boton){
+
+    const fila = boton.parentNode.parentNode;
+
+    fila.cells[3].innerText = "Rechazado";
+}
+
+</script>
+
+<body>
+
+<header>
+    ERP Seguridad LTDA
+</header>
+
+<div class="container">
+
+    <div class="sidebar">
+
+        <h2>ERP</h2>
+
+        <ul>
+            
+            <li><a href="empleados.html">Empleados</a></li>
+            <li><a href="inventario.html">Inventario</a></li>
+            <li><a href="portal-empleado.html">Portal Empleado</a></li>
+            <li><a href="login.html">Cerrar Sesión</a></li>
+        </ul>
+
+    </div>
+
+    <div class="content">
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h3>Empleados</h3>
+                <p>24</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Asistencia</h3>
+                <p>92%</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Vacaciones</h3>
+                <p>5</p>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Registrar Empleado</h2>
+
+            <form onsubmit="agregarEmpleado(event)">
+
+                <input type="text" id="nombre" placeholder="Nombre empleado">
+
+                <input type="text" id="cargo" placeholder="Cargo">
+
+                <input type="email" id="correo" placeholder="Correo electrónico">
+
+                <button type="submit">Registrar</button>
+
+            </form>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Listado de Empleados</h2>
+
+            <table class="table" id="tabla-empleados">
+
+                <tr>
+                    <th>Nombre</th>
+                    <th>Cargo</th>
+                    <th>Correo</th>
+                    <th>Acciones</th>
+                </tr>
+
+                <tr>
+                    <td>Juan Pérez</td>
+                    <td>Supervisor</td>
+                    <td>juan@empresa.cl</td>
+                    <td>
+                        <button onclick="editarEmpleado(this)">Editar</button>
+                        <button onclick="eliminarEmpleado(this)">Eliminar</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>María Soto</td>
+                    <td>Administradora</td>
+                    <td>maria@empresa.cl</td>
+                    <td>
+                        <button onclick="editarEmpleado(this)">Editar</button>
+                        <button onclick="eliminarEmpleado(this)">Eliminar</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Carlos Rojas</td>
+                    <td>Guardia</td>
+                    <td>carlos@empresa.cl</td>
+                    <td>
+                        <button onclick="editarEmpleado(this)">Editar</button>
+                        <button onclick="eliminarEmpleado(this)">Eliminar</button>
+                    </td>
+                </tr>
+                
+
+            </table>
+
+        </div>
+        <div class="card">
+
+    <h2>Solicitud de Vacaciones</h2>
+
+    <form onsubmit="solicitarVacaciones(event)">
+
+        <input type="text" id="empleadoVacaciones" placeholder="Nombre empleado">
+
+        <input type="date" id="fechaInicio">
+
+        <input type="date" id="fechaFin">
+
+        <button type="submit">Solicitar Vacaciones</button>
+
+    </form>
+
+</div>
+
+<div class="card">
+
+    <h2>Solicitudes Registradas</h2>
+
+    <table class="table" id="tabla-vacaciones">
+
+        <tr>
+            <th>Empleado</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+
+        <tr>
+            <td>Juan Pérez</td>
+            <td>2026-06-10</td>
+            <td>2026-06-20</td>
+            <td>Pendiente</td>
+            <td>
+                <button onclick="aprobarVacaciones(this)">Aprobar</button>
+                <button onclick="rechazarVacaciones(this)">Rechazar</button>
+            </td>
+        </tr>
+
+    </table>
+
+</div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
