@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario ERP</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<script>
+
+function agregarProducto(event){
+
+    event.preventDefault();
+
+    const producto = document.getElementById("producto").value;
+    const stock = document.getElementById("stock").value;
+    const bodega = document.getElementById("bodega").value;
+
+    if(producto === "" || stock === "" || bodega === ""){
+        alert("Complete todos los campos");
+        return;
+    }
+
+    const estado = stock <= 5 ? "Stock Bajo" : "Disponible";
+
+    const tabla = document.getElementById("tabla-productos");
+
+    const fila = tabla.insertRow();
+
+    fila.innerHTML = `
+        <td>${producto}</td>
+        <td>${stock}</td>
+        <td>${bodega}</td>
+        <td>${estado}</td>
+        <td>
+            <button onclick="editarProducto(this)">Editar</button>
+            <button onclick="eliminarProducto(this)">Eliminar</button>
+        </td>
+    `;
+
+    document.getElementById("producto").value = "";
+    document.getElementById("stock").value = "";
+    document.getElementById("bodega").value = "";
+}
+
+function eliminarProducto(boton){
+
+    const fila = boton.parentNode.parentNode;
+
+    fila.remove();
+}
+
+function editarProducto(boton){
+
+    const fila = boton.parentNode.parentNode;
+
+    const producto = fila.cells[0].innerText;
+    const stock = fila.cells[1].innerText;
+    const bodega = fila.cells[2].innerText;
+
+    document.getElementById("producto").value = producto;
+    document.getElementById("stock").value = stock;
+    document.getElementById("bodega").value = bodega;
+
+    fila.remove();
+}
+
+</script>
+
+<body>
+
+<header>
+    ERP Seguridad LTDA
+</header>
+
+<div class="container">
+
+    <div class="sidebar">
+
+        <h2>ERP</h2>
+
+        <ul>
+            <li><a href="empleados.html">Empleados</a></li>
+            <li><a href="inventario.html">Inventario</a></li>
+            <li><a href="portal-empleado.html">Portal Empleado</a></li>
+            <li><a href="login.html">Cerrar Sesión</a></li>
+        </ul>
+
+    </div>
+
+    <div class="content">
+
+        <div class="stats">
+
+            <div class="stat-card">
+                <h3>Productos</h3>
+                <p>56</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Stock Bajo</h3>
+                <p>4</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>Bodegas</h3>
+                <p>3</p>
+            </div>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Registrar Producto</h2>
+
+            <form onsubmit="agregarProducto(event)">
+
+                <input type="text" id="producto" placeholder="Nombre producto">
+
+                <input type="number" id="stock" placeholder="Stock disponible">
+
+                <input type="text" id="bodega" placeholder="Bodega">
+
+                <button type="submit">Registrar Producto</button>
+
+            </form>
+
+        </div>
+
+        <div class="card">
+
+            <h2>Inventario Disponible</h2>
+
+            <table class="table" id="tabla-productos">
+
+                <tr>
+                    <th>Producto</th>
+                    <th>Stock</th>
+                    <th>Bodega</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+
+<tr>
+    <td>Notebook Dell</td>
+    <td>12</td>
+    <td>Santiago</td>
+    <td>Disponible</td>
+    <td>
+        <button onclick="editarProducto(this)">Editar</button>
+        <button onclick="eliminarProducto(this)">Eliminar</button>
+    </td>
+</tr>
+
+<tr>
+    <td>Monitor Samsung</td>
+    <td>3</td>
+    <td>Concepción</td>
+    <td>Stock Bajo</td>
+    <td>
+        <button onclick="editarProducto(this)">Editar</button>
+        <button onclick="eliminarProducto(this)">Eliminar</button>
+    </td>
+</tr>
+
+<tr>
+    <td>Mouse Logitech</td>
+    <td>25</td>
+    <td>Los Ángeles</td>
+    <td>Disponible</td>
+    <td>
+        <button onclick="editarProducto(this)">Editar</button>
+        <button onclick="eliminarProducto(this)">Eliminar</button>
+    </td>
+</tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
